@@ -91,7 +91,7 @@ namespace IOConfigurator
             paths[1] = MyIni.Read("jvsexe", "IOConfigurator");
             paths[2] = MyIni.Read("j2kexe", "IOConfigurator");
             paths[3] = MyIni.Read("j2kini", "IOConfigurator");
-            paths[4] = MyIni.Read("bffexe", "IOConfigurator");
+            paths[4] = MyIni.Read("bffexe", "IOConfigurator"); 
             paths[5] = MyIni.Read("bffguiexe", "IOConfigurator");
 
             return paths;
