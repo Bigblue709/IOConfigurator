@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
 
 namespace IOConfigurator
 {
@@ -7,10 +6,15 @@ namespace IOConfigurator
     {
         String FastIoExe = "";
         String JvsExe = "";
-        public String J2kExe = "";
-        public String J2kIni = "";
+        String J2kExe = "";
+        String J2kIni = "";
         String BffExe = "";
         String BffGuiExe = "";
+
+        bool fastioEnabled = false;
+        bool jvsEnabled = false;
+        bool j2kEnabled = false;
+        bool bffEnabled = false;
 
         public Form1()
         {
@@ -20,23 +24,38 @@ namespace IOConfigurator
 
         private void InitializeGlobals()
         {
-            String[] paths = Utilities.CheckIni();
-            FastIoExe = paths[0];
-            JvsExe = paths[1];
-            J2kExe = paths[2];
-            J2kIni = paths[3];
-            BffExe = paths[4];
-            BffGuiExe = paths[5];
+            String[] iniValues = Utilities.CheckIni();
+
+            fastioEnabled = bool.Parse(iniValues[0]);
+            if (fastioEnabled) cbFIO.Checked = true;
+            FastIoExe = iniValues[1];
+
+            jvsEnabled = bool.Parse(iniValues[2]);
+            if (jvsEnabled) cbJVS.Checked = true;
+            JvsExe = iniValues[3];
+
+            j2kEnabled = bool.Parse(iniValues[4]);
+            if (j2kEnabled) cbJ2K.Checked = true;
+            J2kExe = iniValues[5];
+            tbJ2kExe.Text = J2kExe;
+            J2kIni = iniValues[6];
+
+            bffEnabled = bool.Parse(iniValues[7]);
+            if (bffEnabled) cbBFF.Checked = true;
+            BffExe = iniValues[8];
+            BffGuiExe = iniValues[9];
         }
 
         // Enablers
         private void btnEnableFIO_Click(object sender, EventArgs e)
         {
+            fastioEnabled = true;
             cbFIO.Checked = true;
         }
 
         private void btnEnableJVS_Click(object sender, EventArgs e)
         {
+            jvsEnabled = true;
             cbJVS.Checked = true;
         }
 
@@ -45,7 +64,9 @@ namespace IOConfigurator
             if (File.Exists(J2kExe))
             {
                 Utilities.KillApp("joytokey");
-                Utilities.StartApp(J2kExe, ProcessWindowStyle.Minimized);
+                Utilities.StartApp(J2kExe, ProcessWindowStyle.Hidden, false);
+
+                j2kEnabled = true;
                 cbJ2K.Checked = true;
             }
         }
@@ -54,24 +75,30 @@ namespace IOConfigurator
         {
             Utilities.KillApp("BackForceFeeder");
             Utilities.KillApp("BackForceFeederGUI");
-            Utilities.StartApp(BffExe, ProcessWindowStyle.Minimized);
+            Utilities.StartApp(BffExe, ProcessWindowStyle.Hidden, false);
+
+            bffEnabled = true;
             cbBFF.Checked = true;
         }
 
         // Disablers
         private void btnDisableFIO_Click(object sender, EventArgs e)
         {
+            fastioEnabled = false;
             cbFIO.Checked = false;
         }
 
         private void btnDisableJVS_Click(object sender, EventArgs e)
         {
+            jvsEnabled = false;
             cbJVS.Checked = false;
         }
 
         private void btnDisableJ2K_Click(object sender, EventArgs e)
         {
             Utilities.KillApp("joytokey");
+
+            j2kEnabled = false;
             cbJ2K.Checked = false;
         }
 
@@ -79,6 +106,8 @@ namespace IOConfigurator
         {
             Utilities.KillApp("BackForceFeeder");
             Utilities.KillApp("BackForceFeederGUI");
+
+            bffEnabled = false;
             cbBFF.Checked = false;
         }
 
@@ -95,13 +124,16 @@ namespace IOConfigurator
 
         private void btnConfigJ2K_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(J2kExe, J2kIni, MessageBoxButtons.OK, MessageBoxIcon.Error);
             if (File.Exists(J2kIni) && File.Exists(J2kExe))
             {
                 Utilities.KillApp("joytokey");
                 Utilities.EditText(J2kIni, "StartIconified=1", "StartIconified=0");
-                Utilities.StartAndWait(J2kExe, ProcessWindowStyle.Maximized);
+                Utilities.StartApp(J2kExe, ProcessWindowStyle.Maximized, true);
                 Utilities.EditText(J2kIni, "StartIconified=0", "StartIconified=1");
+                if(j2kEnabled)
+                {
+                    Utilities.StartApp(J2kExe, ProcessWindowStyle.Hidden, false);
+                }
             }
             else
             {
@@ -111,12 +143,15 @@ namespace IOConfigurator
 
         private void btnConfigBFF_Click(object sender, EventArgs e)
         {
-            if (File.Exists(BffExe) && File.Exists(BffGuiExe))
+            if (File.Exists(BffGuiExe))
             {
                 Utilities.KillApp("BackForceFeeder");
                 Utilities.KillApp("BackForceFeederGUI");
-                Utilities.StartAndWait(BffGuiExe, ProcessWindowStyle.Maximized);
-                Utilities.StartApp(BffExe, ProcessWindowStyle.Minimized);
+                Utilities.StartApp(BffGuiExe, ProcessWindowStyle.Maximized, true);
+                if (bffEnabled)
+                {
+                    Utilities.StartApp(BffExe, ProcessWindowStyle.Hidden, false);
+                }
             }
             else
             {
@@ -126,12 +161,31 @@ namespace IOConfigurator
 
         private void btnDisableAll_Click(object sender, EventArgs e)
         {
+            fastioEnabled = false;
+            cbFIO.Checked = false;
 
+            jvsEnabled = false;
+            cbJVS.Checked = false;
+
+            Utilities.KillApp("joytokey");
+            j2kEnabled = false;
+            cbJ2K.Checked = false;
+
+            Utilities.KillApp("BackForceFeeder");
+            Utilities.KillApp("BackForceFeederGUI");
+            bffEnabled = false;
+            cbBFF.Checked = false;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnSaveExit_Click(object sender, EventArgs e)
         {
+            String[] iniValues = Utilities.CheckIni();
+            iniValues[0] = cbFIO.Checked ? "true" : "false";
+            iniValues[2] = cbJVS.Checked ? "true" : "false";
+            iniValues[4] = cbJ2K.Checked ? "true" : "false";
+            iniValues[7] = cbBFF.Checked ? "true" : "false";
 
+            Utilities.UpdateIni(iniValues);
         }
     }
 }

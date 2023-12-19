@@ -11,27 +11,7 @@ namespace IOConfigurator
 {
     internal class Utilities
     {
-        public static bool StartApp(String path, ProcessWindowStyle style)
-        {
-            if (File.Exists(path))
-            {
-                Process ExternalProcess = new Process();
-                ExternalProcess.StartInfo.FileName = path;
-                ExternalProcess.StartInfo.WindowStyle = style;
-
-                if (ExternalProcess.Start())
-                    return true;
-                else
-                    return false;
-            }
-            else
-            {
-                return false;
-            }
-
-        }
-
-        public static void StartAndWait(String path, ProcessWindowStyle style)
+        public static void StartApp(String path, ProcessWindowStyle style, bool wait)
         {
             if (File.Exists(path))
             {
@@ -39,7 +19,10 @@ namespace IOConfigurator
                 ExternalProcess.StartInfo.FileName = path;
                 ExternalProcess.StartInfo.WindowStyle = style;
                 ExternalProcess.Start();
-                ExternalProcess.WaitForExit();
+                if (wait)
+                {
+                    ExternalProcess.WaitForExit();
+                }
             }
 
         }
@@ -72,29 +55,61 @@ namespace IOConfigurator
         public static String[] CheckIni()
         {
             String path = System.AppDomain.CurrentDomain.BaseDirectory + "config.ini";
-            String[] paths = new String[6];
-
-            bool fileExists = File.Exists(path);
+            bool fileExists = File.Exists(path); // Check before you create it
             IniFile MyIni = new IniFile(@path);
 
             if (!fileExists)
             {
-                MyIni.Write("fastioexe", "");
-                MyIni.Write("jvsexe", "");
-                MyIni.Write("j2kexe", "E:\\SYSTEM\\JOYTOKEY\\JOYTOKEY.EXE");
-                MyIni.Write("j2kini", "E:\\SYSTEM\\JOYTOKEY\\JOYTOKEY.INI");
-                MyIni.Write("bffexe", "");
-                MyIni.Write("bffguiexe", "");
+                MyIni.Write("fastio2kb_enabled", "false", "FASTIO");
+                MyIni.Write("fastio2kb_exe", "E:\\SYSTEM\\IO\\FASTIO\\FASTIO2KB.EXE\n", "FASTIO");
+
+                MyIni.Write("jvs2kb_enabled", "false", "JVS");
+                MyIni.Write("jvs2kb_exe", "E:\\SYSTEM\\IO\\JVS\\JVS2KB.EXE\n", "JVS");
+
+                MyIni.Write("joytokey_enabled", "false", "JOYTOKEY");
+                MyIni.Write("joytokey_exe", "E:\\SYSTEM\\IO\\JOYTOKEY\\JOYTOKEY.EXE", "JOYTOKEY");
+                MyIni.Write("joytokey_ini", "E:\\SYSTEM\\IO\\JOYTOKEY\\JOYTOKEY.INI\n", "JOYTOKEY");
+
+                MyIni.Write("backforcefeeder_enabled", "false", "BACKFORCEFEEDER");
+                MyIni.Write("backforcefeeder_exe", "E:\\SYSTEM\\IO\\BFF\\BACKFORCEFEEDER.EXE", "BACKFORCEFEEDER");
+                MyIni.Write("backforcefeedergui_exe", "E:\\SYSTEM\\IO\\BFF\\BACKFORCEFEEDERGUI.EXE\n", "BACKFORCEFEEDER");
             }
 
-            paths[0] = MyIni.Read("fastioexe", "IOConfigurator");
-            paths[1] = MyIni.Read("jvsexe", "IOConfigurator");
-            paths[2] = MyIni.Read("j2kexe", "IOConfigurator");
-            paths[3] = MyIni.Read("j2kini", "IOConfigurator");
-            paths[4] = MyIni.Read("bffexe", "IOConfigurator");
-            paths[5] = MyIni.Read("bffguiexe", "IOConfigurator");
+            String[] values = new String[10];
 
-            return paths;
+            values[0] = MyIni.Read("fastio2kb_enabled", "FASTIO");
+            values[1] = MyIni.Read("fastio2kb_exe", "FASTIO");
+
+            values[2] = MyIni.Read("jvs2kb_enabled", "JVS");
+            values[3] = MyIni.Read("jvs2kb_exe", "JVS");
+
+            values[4] = MyIni.Read("joytokey_enabled", "JOYTOKEY"); ;
+            values[5] = MyIni.Read("joytokey_exe", "JOYTOKEY");
+            values[6] = MyIni.Read("joytokey_ini", "JOYTOKEY");
+
+            values[7] = MyIni.Read("backforcefeeder_enabled", "BACKFORCEFEEDER");
+            values[8] = MyIni.Read("backforcefeeder_exe", "BACKFORCEFEEDER");
+            values[9] = MyIni.Read("backforcefeedergui_exe", "BACKFORCEFEEDER");
+
+            return values;
         }
+
+        public static void UpdateIni(String[] iniValues)
+        {
+            String path = System.AppDomain.CurrentDomain.BaseDirectory + "config.ini";
+            if (File.Exists(path))
+            {
+                IniFile MyIni = new IniFile(@path);
+
+                MyIni.Write("fastio2kb_enabled", iniValues[0], "FASTIO");
+
+                MyIni.Write("jvs2kb_enabled", iniValues[2], "JVS");
+
+                MyIni.Write("joytokey_enabled", iniValues[4], "JOYTOKEY");
+
+                MyIni.Write("backforcefeeder_enabled", iniValues[7], "BACKFORCEFEEDER");
+            }
+        }
+
     }
 }

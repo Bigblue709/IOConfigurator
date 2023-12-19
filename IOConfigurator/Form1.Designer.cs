@@ -52,9 +52,9 @@
             button2 = new Button();
             label2 = new Label();
             textBox2 = new TextBox();
-            button3 = new Button();
+            btnJ2kExe = new Button();
             label3 = new Label();
-            textBox3 = new TextBox();
+            tbJ2kExe = new TextBox();
             groupBox2 = new GroupBox();
             groupBox3 = new GroupBox();
             groupBox4 = new GroupBox();
@@ -62,10 +62,9 @@
             textBox4 = new TextBox();
             label4 = new Label();
             button4 = new Button();
-            button5 = new Button();
-            button6 = new Button();
+            btnEditIni = new Button();
             groupBox6 = new GroupBox();
-            button7 = new Button();
+            btnSaveSettings = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -76,6 +75,7 @@
             // 
             // btnEnableFIO
             // 
+            btnEnableFIO.Enabled = false;
             btnEnableFIO.Location = new Point(6, 22);
             btnEnableFIO.Name = "btnEnableFIO";
             btnEnableFIO.Size = new Size(110, 55);
@@ -86,6 +86,7 @@
             // 
             // btnEnableJVS
             // 
+            btnEnableJVS.Enabled = false;
             btnEnableJVS.Location = new Point(6, 22);
             btnEnableJVS.Name = "btnEnableJVS";
             btnEnableJVS.Size = new Size(110, 55);
@@ -248,6 +249,7 @@
             // 
             // btnDisableJVS
             // 
+            btnDisableJVS.Enabled = false;
             btnDisableJVS.Location = new Point(122, 22);
             btnDisableJVS.Name = "btnDisableJVS";
             btnDisableJVS.Size = new Size(110, 55);
@@ -258,6 +260,7 @@
             // 
             // btnDisableFIO
             // 
+            btnDisableFIO.Enabled = false;
             btnDisableFIO.Location = new Point(122, 22);
             btnDisableFIO.Name = "btnDisableFIO";
             btnDisableFIO.Size = new Size(110, 55);
@@ -268,6 +271,7 @@
             // 
             // textBox1
             // 
+            textBox1.Enabled = false;
             textBox1.Location = new Point(46, 83);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(261, 23);
@@ -284,6 +288,7 @@
             // 
             // button1
             // 
+            button1.Enabled = false;
             button1.Location = new Point(313, 84);
             button1.Name = "button1";
             button1.Size = new Size(35, 23);
@@ -293,13 +298,13 @@
             // 
             // button2
             // 
+            button2.Enabled = false;
             button2.Location = new Point(313, 84);
             button2.Name = "button2";
             button2.Size = new Size(35, 23);
             button2.TabIndex = 21;
             button2.Text = "...";
             button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
             // 
             // label2
             // 
@@ -309,24 +314,24 @@
             label2.Size = new Size(34, 15);
             label2.TabIndex = 20;
             label2.Text = "Path:";
-            label2.Click += this.label2_Click;
             // 
             // textBox2
             // 
+            textBox2.Enabled = false;
             textBox2.Location = new Point(46, 83);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(261, 23);
             textBox2.TabIndex = 19;
-            textBox2.TextChanged += this.textBox2_TextChanged;
             // 
-            // button3
+            // btnJ2kExe
             // 
-            button3.Location = new Point(313, 84);
-            button3.Name = "button3";
-            button3.Size = new Size(35, 23);
-            button3.TabIndex = 24;
-            button3.Text = "...";
-            button3.UseVisualStyleBackColor = true;
+            btnJ2kExe.Enabled = false;
+            btnJ2kExe.Location = new Point(313, 84);
+            btnJ2kExe.Name = "btnJ2kExe";
+            btnJ2kExe.Size = new Size(35, 23);
+            btnJ2kExe.TabIndex = 24;
+            btnJ2kExe.Text = "...";
+            btnJ2kExe.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
@@ -337,12 +342,12 @@
             label3.TabIndex = 23;
             label3.Text = "Path:";
             // 
-            // textBox3
+            // tbJ2kExe
             // 
-            textBox3.Location = new Point(46, 83);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(261, 23);
-            textBox3.TabIndex = 22;
+            tbJ2kExe.Location = new Point(46, 83);
+            tbJ2kExe.Name = "tbJ2kExe";
+            tbJ2kExe.Size = new Size(261, 23);
+            tbJ2kExe.TabIndex = 22;
             // 
             // groupBox2
             // 
@@ -379,8 +384,8 @@
             groupBox4.Controls.Add(btnEnableJ2K);
             groupBox4.Controls.Add(btnConfigJ2K);
             groupBox4.Controls.Add(btnDisableJ2K);
-            groupBox4.Controls.Add(button3);
-            groupBox4.Controls.Add(textBox3);
+            groupBox4.Controls.Add(btnJ2kExe);
+            groupBox4.Controls.Add(tbJ2kExe);
             groupBox4.Controls.Add(label3);
             groupBox4.Location = new Point(145, 264);
             groupBox4.Name = "groupBox4";
@@ -406,6 +411,7 @@
             // 
             // textBox4
             // 
+            textBox4.Enabled = false;
             textBox4.Location = new Point(46, 83);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(261, 23);
@@ -422,6 +428,7 @@
             // 
             // button4
             // 
+            button4.Enabled = false;
             button4.Location = new Point(313, 84);
             button4.Name = "button4";
             button4.Size = new Size(35, 23);
@@ -429,45 +436,37 @@
             button4.Text = "...";
             button4.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // btnEditIni
             // 
-            button5.Location = new Point(6, 106);
-            button5.Name = "button5";
-            button5.Size = new Size(99, 80);
-            button5.TabIndex = 29;
-            button5.Text = "Edit Configurator .ini";
-            button5.UseVisualStyleBackColor = true;
-            // 
-            // button6
-            // 
-            button6.Location = new Point(6, 192);
-            button6.Name = "button6";
-            button6.Size = new Size(99, 80);
-            button6.TabIndex = 30;
-            button6.Text = "Kill and relaunch AM";
-            button6.UseVisualStyleBackColor = true;
+            btnEditIni.Enabled = false;
+            btnEditIni.Location = new Point(6, 106);
+            btnEditIni.Name = "btnEditIni";
+            btnEditIni.Size = new Size(99, 80);
+            btnEditIni.TabIndex = 29;
+            btnEditIni.Text = "Edit Configurator .ini";
+            btnEditIni.UseVisualStyleBackColor = true;
             // 
             // groupBox6
             // 
-            groupBox6.Controls.Add(button7);
-            groupBox6.Controls.Add(button5);
-            groupBox6.Controls.Add(button6);
+            groupBox6.Controls.Add(btnSaveSettings);
+            groupBox6.Controls.Add(btnEditIni);
             groupBox6.Controls.Add(btnDisableAll);
             groupBox6.Location = new Point(12, 138);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new Size(111, 372);
+            groupBox6.Size = new Size(111, 284);
             groupBox6.TabIndex = 31;
             groupBox6.TabStop = false;
             groupBox6.Text = "General";
             // 
-            // button7
+            // btnSaveSettings
             // 
-            button7.Location = new Point(6, 278);
-            button7.Name = "button7";
-            button7.Size = new Size(99, 80);
-            button7.TabIndex = 32;
-            button7.Text = "Save and Exit";
-            button7.UseVisualStyleBackColor = true;
+            btnSaveSettings.Location = new Point(6, 192);
+            btnSaveSettings.Name = "btnSaveSettings";
+            btnSaveSettings.Size = new Size(99, 80);
+            btnSaveSettings.TabIndex = 32;
+            btnSaveSettings.Text = "Save Settings";
+            btnSaveSettings.UseVisualStyleBackColor = true;
+            btnSaveSettings.Click += btnSaveExit_Click;
             // 
             // Form1
             // 
@@ -522,9 +521,9 @@
         private Button button2;
         private Label label2;
         private TextBox textBox2;
-        private Button button3;
+        private Button btnJ2kExe;
         private Label label3;
-        private TextBox textBox3;
+        private TextBox tbJ2kExe;
         private GroupBox groupBox2;
         private GroupBox groupBox3;
         private GroupBox groupBox4;
@@ -532,9 +531,8 @@
         private TextBox textBox4;
         private Label label4;
         private Button button4;
-        private Button button5;
-        private Button button6;
+        private Button btnEditIni;
         private GroupBox groupBox6;
-        private Button button7;
+        private Button btnSaveSettings;
     }
 }
